@@ -18,7 +18,7 @@ It handles the complexity of scraping for you:
 
 ### Claude Desktop
 
-1. Open Claude Desktop → File → Settings → Developer → Edit Config
+1. Open Claude Desktop → Settings → Developer → Edit Config
 2. Add to `claude_desktop_config.json`:
 3. Replace `your_token_here` and `your_js_token_here` with the tokens from your dashboard.
 
@@ -108,9 +108,9 @@ Add to your `claude.json` configuration:
 
 Once configured, use these commands inside Claude, Cursor, or Windsurf:
 
-* crawl → Fetch raw HTML
-* crawl_markdown → Extract clean Markdown
-* crawl_screenshot → Capture screenshots
+- crawl → Fetch raw HTML
+- crawl_markdown → Extract clean Markdown
+- crawl_screenshot → Capture screenshots
 
 Example prompts:
 
