@@ -371,14 +371,22 @@ class CrawlbaseMCPServer {
   }
 }
 
-if (isDebugEnabled()) {
-  debug('=== Starting Crawlbase MCP Server ===');
-  debug('Debug log location:', getDebugFilePath());
-  debug('Debug mode enabled via DEBUG environment variable');
-}
+export { CrawlbaseMCPServer };
 
-const server = new CrawlbaseMCPServer();
-server.run().catch((error) => {
-  debug('Fatal error:', error);
-  process.exit(1);
-});
+// Auto-run only when executed directly (stdio mode)
+const isDirectExecution =
+  import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('crawlbase-mcp.js');
+
+if (isDirectExecution) {
+  if (isDebugEnabled()) {
+    debug('=== Starting Crawlbase MCP Server ===');
+    debug('Debug log location:', getDebugFilePath());
+    debug('Debug mode enabled via DEBUG environment variable');
+  }
+
+  const server = new CrawlbaseMCPServer();
+  server.run().catch((error) => {
+    debug('Fatal error:', error);
+    process.exit(1);
+  });
+}

@@ -1,6 +1,6 @@
 {
   "name": "@crawlbase/mcp",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "MCP server for Crawlbase API - enables web scraping through Model Context Protocol",
   "main": "src/mcp-server.js",
   "bin": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node src/mcp-server.js",
+    "start:http": "node src/mcp-http-server.js",
     "lint": "eslint src --ext .js",
     "lint:fix": "eslint src --ext .js --fix",
     "format": "prettier --write src/**/*.js"
@@ -37,7 +38,10 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.6",
     "@modelcontextprotocol/sdk": "^1.22.0",
+    "fetch-to-node": "^2.1.0",
+    "hono": "^4.10.6",
     "node-html-parser": "^7.0.1",
     "p-queue": "^9.0.1",
     "sharp": "^0.34.5",
