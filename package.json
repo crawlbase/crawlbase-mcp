@@ -37,12 +37,12 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.21.0",
+    "@modelcontextprotocol/sdk": "^1.22.0",
     "node-html-parser": "^7.0.1",
-    "p-queue": "^9.0.0",
-    "sharp": "^0.34.4",
+    "p-queue": "^9.0.1",
+    "sharp": "^0.34.5",
     "turndown": "^7.2.2",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
