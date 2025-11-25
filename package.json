@@ -1,6 +1,6 @@
 {
   "name": "@crawlbase/mcp",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "MCP server for Crawlbase API - enables web scraping through Model Context Protocol",
   "main": "src/mcp-server.js",
   "bin": {

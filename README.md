@@ -102,6 +102,48 @@ Add to your `claude.json` configuration:
 }
 ```
 
+### HTTP Transport Mode
+
+For scenarios where you need a shared MCP server accessible over HTTP (e.g., multi-user environments, custom integrations), you can run the server in HTTP mode:
+
+```bash
+# Clone and install
+git clone https://github.com/crawlbase/crawlbase-mcp.git
+cd crawlbase-mcp
+npm install
+
+# Start HTTP server with tokens (default port: 3000)
+CRAWLBASE_TOKEN=your_token CRAWLBASE_JS_TOKEN=your_js_token npm run start:http
+
+# Or with custom port
+CRAWLBASE_TOKEN=your_token CRAWLBASE_JS_TOKEN=your_js_token MCP_PORT=8080 npm run start:http
+```
+
+The server exposes:
+
+- `POST /mcp` - MCP Streamable HTTP endpoint
+- `GET /health` - Health check endpoint
+
+#### Per-Request Token Authentication
+
+HTTP mode supports per-request tokens via headers, allowing multiple users to share a single server:
+
+```bash
+curl -X POST http://localhost:3000/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "X-Crawlbase-Token: your_token" \
+  -H "X-Crawlbase-JS-Token: your_js_token" \
+  -d '{"jsonrpc": "2.0", "method": "tools/list", "id": 1}'
+```
+
+**Headers:**
+
+- `X-Crawlbase-Token` - Normal token for HTML requests
+- `X-Crawlbase-JS-Token` - JavaScript token for JS-rendered pages/screenshots
+
+Headers override environment variables when provided, enabling multi-tenant deployments.
+
 🔑 Get your free tokens at [Crawlbase ↗️](https://crawlbase.com/signup?utm_source=github&utm_medium=readme&utm_campaign=mcp_launch&utm_content=signup_link).
 
 ## Usage

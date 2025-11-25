@@ -15,7 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageJson = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf8'));
 
 class CrawlbaseMCPServer {
-  constructor() {
+  constructor(options = {}) {
     debug('=== CrawlbaseMCPServer Starting ===');
     debug('Environment:', {
       nodeVersion: process.version,
@@ -28,19 +28,23 @@ class CrawlbaseMCPServer {
       { capabilities: { tools: {} } },
     );
 
-    if (!process.env.CRAWLBASE_TOKEN && !process.env.CRAWLBASE_JS_TOKEN) {
+    // Allow tokens from options (HTTP headers) or fall back to environment variables
+    const normalToken = options.token || process.env.CRAWLBASE_TOKEN;
+    const jsToken = options.jsToken || process.env.CRAWLBASE_JS_TOKEN;
+
+    if (!normalToken && !jsToken) {
       debug(
-        'Warning: No Crawlbase tokens provided. Please set CRAWLBASE_TOKEN and/or CRAWLBASE_JS_TOKEN environment variables.',
+        'Warning: No Crawlbase tokens provided. Please set CRAWLBASE_TOKEN and/or CRAWLBASE_JS_TOKEN environment variables, or pass tokens via HTTP headers.',
       );
     }
 
-    this.client = new CrawlbaseClient(process.env.CRAWLBASE_TOKEN, process.env.CRAWLBASE_JS_TOKEN);
+    this.client = new CrawlbaseClient(normalToken, jsToken);
     debug('CrawlbaseClient initialized with tokens:', {
-      hasNormalToken: !!process.env.CRAWLBASE_TOKEN,
-      hasJsToken: !!process.env.CRAWLBASE_JS_TOKEN,
+      hasNormalToken: !!normalToken,
+      hasJsToken: !!jsToken,
       tokenLengths: {
-        normal: process.env.CRAWLBASE_TOKEN?.length || 0,
-        js: process.env.CRAWLBASE_JS_TOKEN?.length || 0,
+        normal: normalToken?.length || 0,
+        js: jsToken?.length || 0,
       },
     });
 

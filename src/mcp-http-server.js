@@ -14,13 +14,26 @@ if (isDebugEnabled()) {
   debug('Debug log location:', getDebugFilePath());
 }
 
-const mcpServer = new CrawlbaseMCPServer();
+// Shared server instance for requests without header tokens (uses env vars)
+const sharedMcpServer = new CrawlbaseMCPServer();
 const app = new Hono();
 
 app.post('/mcp', async (c) => {
   debug('Received HTTP request to /mcp');
 
   try {
+    // Extract tokens from headers
+    const headerToken = c.req.header('X-Crawlbase-Token');
+    const headerJsToken = c.req.header('X-Crawlbase-JS-Token');
+
+    // Use per-request server if headers provided, otherwise shared instance
+    const mcpServer =
+      headerToken || headerJsToken
+        ? new CrawlbaseMCPServer({ token: headerToken, jsToken: headerJsToken })
+        : sharedMcpServer;
+
+    debug('Using tokens from:', headerToken || headerJsToken ? 'HTTP headers' : 'environment variables');
+
     const { req, res } = toReqRes(c.req.raw);
     const body = await c.req.json();
 
